@@ -76,6 +76,13 @@ Shows total sessions, messages, and a per-project breakdown.
 - No data leaves your machine except when running `ask`, which sends the
   retrieved snippets (not the full transcripts) to the Anthropic API.
 
+## Related
+
+- [claude-secrets](https://github.com/Alex-Keyes/claude-secrets) — paste secrets
+  straight into Claude Code chat and have them land in `.env` without ever
+  entering the transcript.
+
 ## License
 
-MIT
+MIT — free and open source. If it's useful to you, a star on the repo is the
+best thanks.
