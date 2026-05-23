@@ -1,5 +1,6 @@
 import { createReadStream } from "node:fs";
 import { createInterface } from "node:readline";
+import { homedir } from "node:os";
 
 export interface ParsedMessage {
   ts: string | null;
@@ -162,11 +163,29 @@ export function decodeProjectDir(encoded: string): string {
 
 /**
  * Best-effort short project name from a cwd path.
- * `/home/alex/Projects/sellaria` -> `sellaria`
- * `/home/alex/Projects` -> `Projects`
+ *
+ * Rules:
+ * - If cwd is the user's home dir → `(no project)`
+ * - If cwd contains a `projects` segment (case-insensitive), use the next segment
+ *   (e.g. `/home/alex/Projects/sellaria/src` → `sellaria`).
+ * - If cwd *ends* at a `projects` segment with no child → `(no project)`.
+ * - Otherwise fall back to the basename (handles `/tmp/scratch-xyz` etc.).
  */
 export function projectNameFromCwd(cwd: string | null): string {
   if (!cwd) return "(unknown)";
+  if (cwd === homedir()) return "(no project)";
+
   const parts = cwd.split("/").filter(Boolean);
-  return parts[parts.length - 1] ?? "(unknown)";
+  if (parts.length === 0) return "(no project)";
+
+  for (let i = 0; i < parts.length - 1; i++) {
+    if (parts[i]!.toLowerCase() === "projects") {
+      return parts[i + 1]!;
+    }
+  }
+
+  const last = parts[parts.length - 1]!;
+  if (last.toLowerCase() === "projects") return "(no project)";
+
+  return last;
 }
