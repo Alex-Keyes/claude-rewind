@@ -55,8 +55,12 @@ claude-rewind search "deploy" --project sellaria
 
 ### `ask`
 
-Same retrieval, plus a synthesis pass through Claude. Set `ANTHROPIC_API_KEY` in
-your environment.
+Same retrieval as `search`, plus a synthesis pass through Claude.
+
+Requires `ANTHROPIC_API_KEY` — grab one from
+[console.anthropic.com](https://console.anthropic.com/settings/keys) and export
+it (`export ANTHROPIC_API_KEY=sk-ant-…`, optionally in your shell rc file). If
+the key isn't set, use `search` instead — it runs fully locally.
 
 ```bash
 claude-rewind ask "when did I last work on the indexer in sellaria?"

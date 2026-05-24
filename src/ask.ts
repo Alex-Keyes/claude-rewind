@@ -46,7 +46,17 @@ export async function ask(
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
     throw new Error(
-      "ANTHROPIC_API_KEY is not set. Export it or run `claude-rewind search` instead.",
+      [
+        "ANTHROPIC_API_KEY is not set — the `ask` command needs it to synthesize an answer.",
+        "",
+        "Get a key at https://console.anthropic.com/settings/keys and export it:",
+        "",
+        "  export ANTHROPIC_API_KEY=sk-ant-...",
+        "",
+        "(add it to ~/.bashrc or ~/.zshrc to persist).",
+        "",
+        "Or use `claude-rewind search` instead — it runs fully locally with no API key.",
+      ].join("\n"),
     );
   }
 
